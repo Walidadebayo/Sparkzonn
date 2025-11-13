@@ -5,17 +5,17 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Moon, Sun, ChevronDown } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { useTheme } from "next-themes"
+import Image from "next/image"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isDark, setIsDark] = useState(false)
-  const [mounted, setMounted] = useState(false)
   const [categories, setCategories] = useState<Array<{ name: string; slug: string }>>([])
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-    const isDarkMode = document.documentElement.classList.contains("dark")
-    setIsDark(isDarkMode)
 
     const fetchCategories = async () => {
       try {
@@ -30,15 +30,8 @@ export function Header() {
     fetchCategories()
   }, [])
 
-  const toggleDarkMode = () => {
-    const newDarkMode = !isDark
-    setIsDark(newDarkMode)
-
-    if (newDarkMode) {
-      document.documentElement.classList.add("dark")
-    } else {
-      document.documentElement.classList.remove("dark")
-    }
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark")
   }
 
   if (!mounted) return null
@@ -50,7 +43,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">S</span>
+              <Image src="/logo.png" alt="Logo" width={24} height={24} />
             </div>
             <span className="hidden sm:inline text-lg font-bold text-foreground">Sparkzonn</span>
           </Link>
@@ -85,8 +78,8 @@ export function Header() {
 
           {/* Theme Toggle and Mobile Menu */}
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" onClick={toggleDarkMode} aria-label="Toggle dark mode">
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+              {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
 
             <Button

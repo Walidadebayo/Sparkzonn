@@ -4,9 +4,10 @@ import { signOut, useSession } from "next-auth/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { BarChart3, FileText, Tag, Zap, LogOut, Menu, X, Users, User } from "lucide-react"
+import { BarChart3, FileText, Tag, Zap, LogOut, Menu, X, Users, User, Moon, Sun } from "lucide-react"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
+import { useTheme } from "next-themes"
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: BarChart3 },
@@ -24,6 +25,11 @@ export function AdminSidebar() {
   const pathname = usePathname()
   const { data: session } = useSession()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { theme, setTheme } = useTheme()
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
 
   return (
     <>
@@ -82,6 +88,16 @@ export function AdminSidebar() {
                 {(session?.user as any)?.role}
               </p>
             </div>
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full justify-start gap-2 bg-transparent"
+              onClick={toggleTheme}
+            >
+              {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              {theme === "dark" ? "Light Mode" : "Dark Mode"}
+            </Button>
 
             <Button
               variant="outline"

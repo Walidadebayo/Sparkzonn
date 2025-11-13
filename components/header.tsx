@@ -70,10 +70,6 @@ export function Header() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-
-            <Link href="/admin" className="text-foreground hover:text-primary transition">
-              Admin
-            </Link>
           </nav>
 
           {/* Theme Toggle and Mobile Menu */}

@@ -1,0 +1,95 @@
+// This is the Prisma schema for production database integration
+// To use this, install @prisma/client and set up a PostgreSQL database
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    String     @id @default(cuid())
+  email String     @unique
+  name  String?
+  password String  
+  role  Role       @default(ADMIN)
+  passwordChanged Boolean @default(false)
+  resetToken String?
+  resetTokenExpiry DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Blog {
+  id        String     @id @default(cuid())
+  title     String
+  slug      String     @unique
+  excerpt   String
+  content   String     @db.Text
+  author    String
+  category  Category   @relation(fields: [categoryId], references: [id])
+  categoryId String
+  coverImage String?
+  tags      String[]
+  featured  Boolean    @default(false)
+  published Boolean    @default(false)
+  likes     Int        @default(0)
+  comments  Comment[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("blogs")
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  blogs       Blog[]
+  createdAt   DateTime  @default(now())
+
+  @@map("categories")
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  blog      Blog      @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  blogId    String
+  userName  String
+  content   String    @db.Text
+  likes     Int       @default(0)
+  dislikes  Int       @default(0)
+  createdAt DateTime  @default(now())
+
+  @@map("comments")
+}
+
+model Ad {
+  id        String     @id @default(cuid())
+  title     String
+  image     String
+  link      String
+  active    Boolean    @default(true)
+  position  AdPosition @default(SIDEBAR)
+  createdAt DateTime   @default(now())
+
+  @@map("ads")
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+}
+
+enum AdPosition {
+  HEADER
+  SIDEBAR
+  FOOTER
+  INLINE
+}

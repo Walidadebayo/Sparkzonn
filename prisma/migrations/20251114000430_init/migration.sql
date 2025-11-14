@@ -11,6 +11,9 @@ CREATE TABLE "users" (
     "name" TEXT,
     "password" TEXT NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'ADMIN',
+    "passwordChanged" BOOLEAN NOT NULL DEFAULT false,
+    "resetToken" TEXT,
+    "resetTokenExpiry" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

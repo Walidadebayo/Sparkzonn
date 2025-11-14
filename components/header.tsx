@@ -42,7 +42,7 @@ export function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center">
               <Image src="/logo.png" alt="Logo" width={24} height={24} />
             </div>
             <span className="hidden sm:inline text-lg font-bold text-foreground">Sparkzonn</span>

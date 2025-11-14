@@ -26,9 +26,11 @@ export default function AdsPage() {
     title: "",
     image: "",
     link: "",
-    position: "sidebar" as string,
+    position: "SIDEBAR",
     active: true,
   })
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -55,13 +57,40 @@ export default function AdsPage() {
       position: ad.position,
       active: ad.active,
     })
+    setImagePreview(ad.image)
+    setSelectedFile(null)
+    setImagePreview(ad.image)
+  }
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setSelectedFile(file)
+      if (imagePreview) URL.revokeObjectURL(imagePreview)
+      setImagePreview(URL.createObjectURL(file))
+    }
   }
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!formData.title || !formData.image || !formData.link) {
+    if (!formData.title || !formData.link) {
       alert("Please fill in all required fields")
       return
+    }
+
+    if (!selectedFile && !imagePreview && editingId === "new") {
+      alert("Please select an image")
+      return
+    }
+
+    const formDataToSend = new FormData()
+    formDataToSend.append('title', formData.title)
+    formDataToSend.append('link', formData.link)
+    formDataToSend.append('position', formData.position)
+    formDataToSend.append('active', formData.active.toString())
+
+    if (selectedFile) {
+      formDataToSend.append('image', selectedFile)
     }
 
     try {
@@ -70,8 +99,7 @@ export default function AdsPage() {
 
       const response = await fetch(endpoint, {
         method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       })
 
       if (!response.ok) throw new Error("Failed to save ad")
@@ -121,9 +149,11 @@ export default function AdsPage() {
       title: "",
       image: "",
       link: "",
-      position: "sidebar",
+      position: "SIDEBAR",
       active: true,
     })
+    setSelectedFile(null)
+    setImagePreview(null)
   }
 
   if (!mounted) return null
@@ -163,13 +193,22 @@ export default function AdsPage() {
               </div>
 
               <div>
-                <label className="text-sm font-medium">Image URL *</label>
+                <label className="text-sm font-medium">Ad Image *</label>
                 <Input
-                  placeholder="https://example.com/ad-image.jpg"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  required
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="cursor-pointer"
                 />
+                {imagePreview && (
+                  <div className="mt-2">
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="w-full max-w-xs h-32 object-cover rounded-md border"
+                    />
+                  </div>
+                )}
               </div>
 
               <div>

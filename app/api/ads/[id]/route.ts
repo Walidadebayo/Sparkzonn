@@ -1,24 +1,52 @@
 import { type NextRequest, NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
+import imagekit from "@/lib/imagekit"
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const body = await request.json()
-    const { title, image, link, position, active } = body
+    const formData = await request.formData()
+    const title = formData.get('title') as string
+    const link = formData.get('link') as string
+    const position = formData.get('position') as string
+    const active = formData.get('active') === 'true'
+    const imageFile = formData.get('image') as File | null
 
-    if (!title || !image || !link) {
+    if (!title || !link) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
+
     const { id } = await params
+
+    let imageUrl = null
+
+    // Upload new image if provided
+    if (imageFile) {
+      const bytes = await imageFile.arrayBuffer()
+      const buffer = Buffer.from(bytes)
+
+      const result = await imagekit.upload({
+        file: buffer,
+        fileName: imageFile.name,
+        folder: '/ads',
+      })
+
+      imageUrl = result.url
+    }
+
+    const updateData: any = {
+      title,
+      link,
+      position: position?.toUpperCase() as any,
+      active,
+    }
+
+    if (imageUrl) {
+      updateData.image = imageUrl
+    }
+
     const ad = await prisma.ad.update({
       where: { id },
-      data: {
-        title,
-        image,
-        link,
-        position,
-        active,
-      }
+      data: updateData
     })
 
     return NextResponse.json(ad)

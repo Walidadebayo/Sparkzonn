@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
+import imagekit from "@/lib/imagekit"
 
 export async function GET(request: NextRequest) {
   try {
@@ -25,20 +26,38 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { title, image, link, position, active } = body
+    const formData = await request.formData()
+    const title = formData.get('title') as string
+    const link = formData.get('link') as string
+    const position = formData.get('position') as string
+    const active = formData.get('active') === 'true'
+    const imageFile = formData.get('image') as File | null
 
-    if (!title || !image || !link) {
+    if (!title || !link) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
+
+    if (!imageFile) {
+      return NextResponse.json({ error: "Image is required" }, { status: 400 })
+    }
+
+    // Upload image to ImageKit
+    const bytes = await imageFile.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+
+    const result = await imagekit.upload({
+      file: buffer,
+      fileName: imageFile.name,
+      folder: '/ads',
+    })
 
     const ad = await prisma.ad.create({
       data: {
         title,
-        image,
+        image: result.url,
         link,
-        position: position || "SIDEBAR",
-        active: active !== undefined ? active : true,
+        position: (position?.toUpperCase() as any) || "SIDEBAR",
+        active,
       }
     })
 

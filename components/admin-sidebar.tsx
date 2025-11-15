@@ -65,7 +65,7 @@ export function AdminSidebar() {
                   <button
                     onClick={() => setMobileOpen(false)}
                     className={cn(
-                      "w-full flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
+                      "w-full flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer",
                       isActive
                         ? "bg-sidebar-primary text-sidebar-primary-foreground"
                         : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
@@ -92,7 +92,7 @@ export function AdminSidebar() {
             <Button
               variant="outline"
               size="sm"
-              className="w-full justify-start gap-2 bg-transparent"
+              className="w-full justify-start gap-2 bg-transparent cursor-pointer"
               onClick={toggleTheme}
             >
               {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -101,7 +101,7 @@ export function AdminSidebar() {
 
             <Button
               variant="outline"
-              className="w-full justify-start gap-2 bg-transparent"
+              className="w-full justify-start gap-2 bg-transparent cursor-pointer"
               onClick={() => signOut({ redirect: true, callbackUrl: "/auth/signin" })}
             >
               <LogOut className="w-4 h-4" />

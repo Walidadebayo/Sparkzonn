@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
     }
 
-    const { email, name, role, password } = await request.json()
+    const { email, name, role } = await request.json()
 
     if (!email || !name) {
       return NextResponse.json({ error: "Email and name are required" }, { status: 400 })
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "User with this email already exists" }, { status: 400 })
     }
 
-    const hashedPassword = password ? await bcrypt.hash(password, 12) : await bcrypt.hash("sparkzonnadmin", 12)
+    const hashedPassword = await bcrypt.hash("sparkzonnadmin", 12)
 
     const user = await prisma.user.create({
       data: {
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         name,
         role: role || "ADMIN",
         password: hashedPassword,
-        passwordChanged: !!password, // if password provided, assume changed
+        passwordChanged: false, // default password, not changed
       },
       select: {
         id: true,

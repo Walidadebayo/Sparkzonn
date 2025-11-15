@@ -23,11 +23,10 @@ export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [editingId, setEditingId] = useState<string | null>(null)
-  const [formData, setFormData] = useState<Partial<User & { password: string }>>({
+  const [formData, setFormData] = useState<Partial<User>>({
     email: "",
     name: "",
     role: "ADMIN",
-    password: "",
   })
 
   useEffect(() => {
@@ -62,10 +61,6 @@ export default function UsersPage() {
       return
     }
 
-    if (!editingId && !formData.password) {
-      alert("Password is required for new users")
-      return
-    }
 
     try {
       const method = editingId ? "PUT" : "POST"
@@ -105,7 +100,6 @@ export default function UsersPage() {
       email: "",
       name: "",
       role: "ADMIN",
-      password: "",
     })
   }
 
@@ -169,17 +163,12 @@ export default function UsersPage() {
                 </Select>
               </div>
 
+              
+
               {editingId === "new" && (
                 <div>
-                  <label className="text-sm font-medium">Password *</label>
-                  <Input
-                    type="password"
-                    placeholder="Password"
-                    value={formData.password || ""}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    required
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">Default password will be set if not provided</p>
+                  <label className="text-sm font-medium">Password</label>
+                  <p className="text-xs text-muted-foreground mt-1">Default password: sparkzonnadmin</p>
                 </div>
               )}
 

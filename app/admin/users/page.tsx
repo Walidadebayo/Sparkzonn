@@ -63,8 +63,8 @@ export default function UsersPage() {
 
 
     try {
-      const method = editingId ? "PUT" : "POST"
-      const endpoint = editingId ? `/api/users/${editingId}` : "/api/users"
+      const method = editingId && editingId !== "new" ? "PUT" : "POST"
+      const endpoint = editingId && editingId !== "new" ? `/api/users/${editingId}` : "/api/users"
 
       const response = await fetch(endpoint, {
         method,

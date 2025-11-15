@@ -17,8 +17,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       return NextResponse.json({ error: "Email and name are required" }, { status: 400 })
     }
 
+    const { id } = await params
+
     const user = await prisma.user.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         email,
         name,
@@ -47,13 +49,15 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
     }
 
+    const { id } = await params
+
     // Prevent deleting self
-    if (params.id === (session.user as any).id) {
+    if (id === (session.user as any).id) {
       return NextResponse.json({ error: "Cannot delete your own account" }, { status: 400 })
     }
 
     await prisma.user.delete({
-      where: { id: params.id },
+      where: { id },
     })
 
     return NextResponse.json({ message: "User deleted successfully" })

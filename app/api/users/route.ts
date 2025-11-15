@@ -36,13 +36,14 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, name, role } = await request.json()
-
+    console.log("Received data:", { email, name, role });
+    
     if (!email || !name) {
       return NextResponse.json({ error: "Email and name are required" }, { status: 400 })
     }
 
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: { email: email },
     })
 
     if (existingUser) {

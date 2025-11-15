@@ -20,7 +20,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     }
 
     const category = await prisma.category.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name,
         slug: finalSlug,

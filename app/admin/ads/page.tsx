@@ -49,12 +49,14 @@ export default function AdsPage() {
   }
 
   const handleEdit = (ad: Ad) => {
+    console.log(ad);
+    
     setEditingId(ad.id)
     setFormData({
       title: ad.title,
       image: ad.image,
       link: ad.link,
-      position: ad.position,
+      position: ad.position.toLowerCase(),
       active: ad.active,
     })
     setImagePreview(ad.image)
@@ -115,11 +117,15 @@ export default function AdsPage() {
     try {
       const ad = ads.find((a) => a.id === id)
       if (!ad) return
-
+      const formDataToSend = new FormData()
+      formDataToSend.append('title', ad.title)
+      formDataToSend.append('link', ad.link)
+      formDataToSend.append('position', ad.position)
+      formDataToSend.append('active', (!ad.active).toString())
+      // No need to append image if not changing
       const response = await fetch(`/api/ads/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...ad, active: !ad.active }),
+        body: formDataToSend,
       })
 
       if (!response.ok) throw new Error("Failed to update ad")
@@ -218,13 +224,14 @@ export default function AdsPage() {
                   value={formData.link}
                   onChange={(e) => setFormData({ ...formData, link: e.target.value })}
                   required
+                  type="url"
                 />
               </div>
 
               <div>
                 <label className="text-sm font-medium">Position</label>
                 <select
-                  value={formData.position}
+                  value={formData.position.toLowerCase()}
                   onChange={(e) => setFormData({ ...formData, position: e.target.value as any })}
                   className="w-full px-3 py-2 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                 >

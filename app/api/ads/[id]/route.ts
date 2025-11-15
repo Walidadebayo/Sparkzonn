@@ -18,6 +18,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const { id } = await params
 
     let imageUrl = null
+    let imageId = null
 
     // Upload new image if provided
     if (imageFile) {
@@ -31,6 +32,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       })
 
       imageUrl = result.url
+      imageId = result.fileId
     }
 
     const updateData: any = {
@@ -42,6 +44,9 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
     if (imageUrl) {
       updateData.image = imageUrl
+    }
+    if (imageId) {
+      updateData.id = imageId
     }
 
     const ad = await prisma.ad.update({
@@ -58,6 +63,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     const { id } = await params
+    await imagekit.deleteFile(id)
     await prisma.ad.delete({
       where: { id }
     })

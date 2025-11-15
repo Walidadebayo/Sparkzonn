@@ -5,6 +5,7 @@ import { BlogCard } from "@/components/blog-card"
 import { AdSlot } from "@/components/ad-slot"
 import { Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 interface Props {
   searchParams: Promise<{ q?: string; category?: string }>
@@ -82,11 +83,11 @@ export default async function BlogPage({ searchParams }: Props) {
             {/* Categories */}
             <div className="flex flex-wrap gap-2">
               <Button variant={!params.category ? "default" : "outline"} asChild>
-                <a href="/blog">All</a>
+                <Link href="/blog">All</Link>
               </Button>
               {categories.map((cat) => (
                 <Button key={cat.slug} variant={params.category === cat.slug ? "default" : "outline"} asChild>
-                  <a href={`/blog?category=${cat.slug}`}>{cat.name}</a>
+                  <Link href={`/blog?category=${cat.slug}`}>{cat.name}</Link>
                 </Button>
               ))}
             </div>

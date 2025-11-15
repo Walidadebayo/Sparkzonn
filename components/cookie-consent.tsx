@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export function CookieConsent() {
   const [show, setShow] = useState(false)
@@ -30,9 +31,9 @@ export function CookieConsent() {
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         <p className="text-sm text-foreground/80">
           We use cookies to enhance your experience. By continuing to browse, you agree to our use of cookies.{" "}
-          <a href="/privacy-policy" className="underline hover:text-foreground">
+          <Link href="/privacy-policy" className="underline hover:text-foreground">
             Learn more
-          </a>
+          </Link>
         </p>
         <div className="flex gap-2 shrink-0">
           <Button variant="outline" size="sm" onClick={handleReject}>

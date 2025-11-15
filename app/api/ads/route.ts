@@ -50,9 +50,13 @@ export async function POST(request: NextRequest) {
       fileName: imageFile.name,
       folder: '/ads',
     })
+    if (!result.url) {
+      return NextResponse.json({ error: "Image upload failed" }, { status: 500 })
+    }
 
     const ad = await prisma.ad.create({
       data: {
+        id: result.fileId,
         title,
         image: result.url,
         link,

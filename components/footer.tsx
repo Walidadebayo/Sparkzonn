@@ -63,19 +63,19 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Connect</h4>
             <ul className="space-y-2 text-muted-foreground text-sm">
               <li>
-                <a href="#" className="hover:text-foreground transition">
+                <Link href="#" className="hover:text-foreground transition">
                   Twitter
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-foreground transition">
+                <Link href="#" className="hover:text-foreground transition">
                   LinkedIn
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-foreground transition">
+                <Link href="#" className="hover:text-foreground transition">
                   Email
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

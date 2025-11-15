@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Sparkzonn",
@@ -89,12 +90,12 @@ export default function PrivacyPolicyPage() {
                 We use cookies, web beacons, and similar tracking technologies
                 to collect information about your browsing activities. For
                 detailed information about our use of cookies, please see our{" "}
-                <a
+                <Link
                   href="/cookie-policy"
                   className="text-primary hover:underline"
                 >
                   Cookie Policy
-                </a>
+                </Link>
                 .
               </p>
             </section>
@@ -162,23 +163,23 @@ export default function PrivacyPolicyPage() {
               </p>
               <p>
                 You may opt out of personalized advertising by visiting{" "}
-                <a
+                <Link
                   href="https://www.google.com/settings/ads"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:underline"
                 >
                   Google Ads Settings
-                </a>{" "}
+                </Link>{" "}
                 or by visiting{" "}
-                <a
+                <Link
                   href="http://www.aboutads.info/choices/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:underline"
                 >
                   www.aboutads.info
-                </a>
+                </Link>
                 .
               </p>
 
@@ -401,9 +402,9 @@ export default function PrivacyPolicyPage() {
                 </li>
                 <li>
                   <strong>Contact Form:</strong>{" "}
-                  <a href="/contact" className="text-primary hover:underline">
+                  <Link href="/contact" className="text-primary hover:underline">
                     https://sparkzonn.com/contact
-                  </a>
+                  </Link>
                 </li>
               </ul>
               <p className="mt-3">

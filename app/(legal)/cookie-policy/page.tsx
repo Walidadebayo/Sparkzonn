@@ -1,6 +1,7 @@
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Cookie Policy | Sparkzonn",
@@ -63,9 +64,9 @@ export default function CookiePolicyPage() {
               <p>
                 If you have any questions about this Cookie Policy, please
                 contact us through our{" "}
-                <a href="/contact" className="text-primary hover:underline">
+                <Link href="/contact" className="text-primary hover:underline">
                   contact page
-                </a>
+                </Link>
                 .
               </p>
             </section>

@@ -2,12 +2,13 @@
 // To use this, install @prisma/client and set up a PostgreSQL database
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output = "./generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  // url      = env("DATABASE_URL")
 }
 
 model User {

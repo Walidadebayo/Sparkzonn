@@ -15,6 +15,8 @@ import {
 import Link from "next/link";
 import { ArrowRight, TrendingUp } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Sparkzonn - Premium Tech & Lifestyle Blog",
   description:

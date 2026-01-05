@@ -15,6 +15,7 @@ const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false })
 
 interface BlogPost {
   id: string
+  slug: string
   title: string
   excerpt: string
   content: string
@@ -350,7 +351,7 @@ export default function BlogsPage() {
                       <td className="p-3 text-muted-foreground">{post.likes}</td>
                       <td className="p-3">
                         <div className="flex items-center gap-1">
-                          <Link href={`/blog/${post.id}`}>
+                          <Link href={`/blog/${post.slug}`}>
                             <Button variant="ghost" size="sm">
                               <Eye className="w-4 h-4" />
                             </Button>

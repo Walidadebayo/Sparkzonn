@@ -22,11 +22,6 @@ export function Footer() {
                   Blog
                 </Link>
               </li>
-              <li>
-                <Link href="/admin" className="hover:text-foreground transition">
-                  Admin
-                </Link>
-              </li>
             </ul>
           </div>
           <div>

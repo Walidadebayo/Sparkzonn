@@ -2,7 +2,7 @@
 
 import { MessageCircle, Share2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import ReactMarkdown from "react-markdown"
+import MarkdownPreview from '@uiw/react-markdown-preview';
 import { CommentForm } from "@/components/comment-form"
 import { LikeButton } from "@/components/like-button"
 import { useState } from "react"
@@ -106,7 +106,10 @@ export function BlogPostContent({ post }: { post: Post }) {
       {/* Article Content */}
       <div className="prose dark:prose-invert max-w-none mb-12">
         <div className="text-lg text-foreground leading-relaxed mb-6">
-          <ReactMarkdown>{post.content}</ReactMarkdown>
+          <MarkdownPreview
+          source={post.content}
+          style={{ padding: 16, backgroundColor: 'transparent' }}
+          ></MarkdownPreview>
         </div>
       </div>
 

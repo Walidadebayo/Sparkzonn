@@ -56,6 +56,7 @@ export async function GET(request: NextRequest) {
       const mappedPosts = posts.map(post => ({
         id: post.id,
         title: post.title,
+        slug: post.slug,
         excerpt: post.excerpt,
         content: post.content,
         category: post.category.name,
